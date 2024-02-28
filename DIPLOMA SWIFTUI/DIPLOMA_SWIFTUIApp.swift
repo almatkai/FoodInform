@@ -9,9 +9,16 @@ import SwiftUI
 
 @main
 struct DIPLOMA_SWIFTUIApp: App {
+    
+    @StateObject private var vm = AppViewModel()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(vm: vm)
+                .environmentObject(vm)
+                .task {
+                    await vm.requestDataScannerAccessStatus()
+                }
         }
     }
 }
