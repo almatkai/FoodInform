@@ -13,12 +13,15 @@ import VisionKit
 struct DataScannerView: UIViewControllerRepresentable {
     
     @ObservedObject var vm: AppViewModel
+    @State var capturingAndRecognizing = false
     
     func makeUIViewController(context: Context) -> DataScannerViewController {
         let vc = DataScannerViewController(
             recognizedDataTypes: [vm.recognizedDataType],
             qualityLevel: .accurate,
+            recognizesMultipleItems: false,
             isHighFrameRateTrackingEnabled: false,
+            isPinchToZoomEnabled: true, isGuidanceEnabled: false,
             isHighlightingEnabled: true
         )
         return vc
@@ -27,7 +30,8 @@ struct DataScannerView: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: DataScannerViewController, context: Context) {
         uiViewController.delegate = context.coordinator
         try? uiViewController.startScanning()
-        if vm.shouldCapturePhoto {
+        if vm.shouldCapturePhoto, !capturingAndRecognizing {
+            print("DEBUG: capturePhoto(dataScannerVC: uiViewController)")
             capturePhoto(dataScannerVC: uiViewController)
         }
         
@@ -38,6 +42,7 @@ struct DataScannerView: UIViewControllerRepresentable {
     
     private func capturePhoto(dataScannerVC: DataScannerViewController) {
         Task { @MainActor in
+            capturingAndRecognizing = true
             do {
                 let photo = try await dataScannerVC.capturePhoto()
                 self.vm.capturedPhoto = .init(photo)
@@ -48,10 +53,18 @@ struct DataScannerView: UIViewControllerRepresentable {
             let recognizer = TextRecognizer()
             if let image = vm.capturedPhoto {
                 recognizer.recognizeText(image: image, withCompletionHandler: { text in
+                    self.vm.shouldCapturePhoto = false
+                    self.capturingAndRecognizing = false
                     vm.text = text
+                    if text != "" {
+                        vm.showText = true
+                        vm.stopScanning = true
+                        print("DEBUG vm.showText: \(vm.showText)")
+                        print("DEBUG vm.stopScanning: \(vm.stopScanning)")
+                    }
+                    print("DEBUG: \(text)")
                 })
             }
-            self.vm.shouldCapturePhoto = false
         }
     }
     
@@ -79,15 +92,27 @@ struct DataScannerView: UIViewControllerRepresentable {
             
             switch vm.recognizedItems[0] {
             case .barcode(let barcode):
+                self.vm.previousBarcode = self.vm.barcode
                 self.vm.barcode = barcode.payloadStringValue ?? ""
-                self.vm.fetchProductData()
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.4) {
+                print("1")
+                if self.vm.barcode != self.vm.previousBarcode {
+                    self.vm.fetchProductData()
+                    print("2")
+                } else {
+                    self.vm.showBarcodeSearch = true
+                    self.vm.fetchingInfoTimer()
+                    print("3")
+                }
+                // Pause the scanner
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     self.vm.stopScanning = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        if !self.vm.isSheetPageOpen {
+                            self.vm.stopScanning = false
+                        }
+                    }
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                    self.vm.stopScanning = false
-                }
+
             @unknown default:
                 print("Unknown")
             }

@@ -17,6 +17,8 @@ struct TabBarView: View {
     @Binding var index: Int
     @Binding var activeTab: [Bool?]
     
+    @State var secondTap = false
+    
     var body: some View {
         VStack{
             Spacer()
@@ -37,6 +39,7 @@ struct TabBarView: View {
                         withAnimation(.bouncy) {
                             index = 0
                         }
+                        secondTap = false
                     }
                     
                     Spacer()
@@ -45,9 +48,9 @@ struct TabBarView: View {
                             .frame(width: index == 1 ? 90 : 65)
                             .foregroundColor(vm.dataScannerAccessStatus == .scannerAvailable ? .blue : .gray)
                         VStack{
-                            Image(systemName: "text.viewfinder")
+                            Image(systemName: vm.textIdendificationInProgress ? "circle.dotted" : "text.viewfinder")
                                 .applyCustomModifier(width: index == 1 ? 45 : 30, flag: index == 1, colorActive: .white, colorNonActive: .white)
-                                .symbolRenderingMode(.palette)
+                                .replaceSymbolEffect()
                         }
                     }
                     .offset(y: index == 1 ? -47.5 : -8)
@@ -56,21 +59,18 @@ struct TabBarView: View {
                     .onTapGesture {
                         vibrate()
                         
+                        Task {
+                            await vm.requestDataScannerAccessStatus()
+                        }
+                        
                         if index == 1 {
-                            print(index)
-                            if vm.capturedPhoto == nil {
-                                withAnimation {
-                                    vm.shouldCapturePhoto = true
-                                }
-                            } else {
-                                withAnimation {
-                                    vm.capturedPhoto = nil
-                                    vm.text = ""
-                                }
+                            withAnimation {
+                                vm.shouldCapturePhoto = true
+                                secondTap = true
                             }
                         }
                         
-                        withAnimation(.smooth) {
+                        withAnimation(.bouncy) {
                             index = 1
                         }
                     }
@@ -87,6 +87,7 @@ struct TabBarView: View {
                         withAnimation(.bouncy) {
                             index = 2
                         }
+                        secondTap = false
                     }
                     Spacer()
                 }

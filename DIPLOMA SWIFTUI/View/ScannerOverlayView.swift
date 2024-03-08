@@ -16,78 +16,82 @@ struct ScannerOverlayView: View {
     @State var  flashOn = false
     @State var showBarcodeSearch = false
     
+    let height = UIScreen.main.bounds.height
+    
     var body: some View {
-        VStack{
-            Spacer()
-            ZStack {
-                HStack {
-                    // MARK: - Try to Search By Barcode Button
-                    Spacer()
-                    // MARK: - Flash Button
-                    VStack{
-                        Button(action: {
+        
+        ZStack {
+            HStack {
+                // MARK: - Functional Camera Buttons
+                VStack{
+                    // MARK: - Disable Barcode Search Button
+                    ZStack {
+                        CameraActionButton(action: {
+                            vm.isSheetPageOpen.toggle()
+                            vm.showBarcodeSearch = false
                             vibrate()
                             withAnimation {
-                                vm.showBarcodeSearch = false
-                                vm.stopScanning = false
+                                if vm.barcodeScanDisabled {
+                                    vm.stopScanning = false
+                                    self.vm.barcodeScanDisabled.toggle()
+                                    vm.isSheetPageOpen = false
+                                }
+                                else {
+                                    vm.isSheetPageOpen = true
+                                    vm.stopScanning = true
+                                    self.vm.barcodeScanDisabled.toggle()
+                                }
                             }
-                        }){
-                            Image(systemName: "arrow.circlepath")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 30)
-                                .fontWeight(.semibold)
-                                .foregroundStyle(flashOn ? Color(.yellow) : .white)
-                                .padding()
+                        }, image: "barcode.viewfinder", width: 22, fontWeigt: .medium)
+                        
+                        if vm.barcodeScanDisabled {
+                            Rectangle()
+                                .frame(width: 36, height: 2)
+                                .rotationEffect(Angle(degrees: 135))
+                                .foregroundStyle(.white)
                         }
-                        .background {
-                            Circle()
-                                .frame(width: 50)
-                                .foregroundStyle(Color.black.opacity(0.6))
-                        }
-                        .padding(.bottom, 10)
-                        Button(action: {
-                            toggleTorch()
-                            vibrate()
-                            withAnimation {
-                                flashOn.toggle()
-                            }
-                        }){
-                            Image(systemName: flashOn ? "bolt.fill" : "bolt")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 18)
-                                .foregroundStyle(flashOn ? Color(.yellow) : .white)
-                                .padding()
-                        }
-                        .background {
-                            Circle()
-                                .frame(width: 50)
-                                .foregroundStyle(Color.black.opacity(0.6))
-                        }
-                    }
-                    .padding(.trailing, 20)
-                    .padding(.bottom, 20)
-                }
-                
-                HStack {
-                    // MARK: - Barcode Search Show
-                    if vm.showBarcodeSearch {
-                        Image(systemName: "barcode")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 35)
-                            .foregroundStyle(.blue)
-                            .padding(5)
-                            .pulseSymbolEffect()
-                            .onTapGesture {
-                                vibrate()
-                                showBarcodeSearch = true
-                            }
                     }
                     
+                    // MARK: - Flash Button
+                    CameraActionButton(action: {
+                        toggleTorch()
+                        vibrate()
+                        withAnimation {
+                            flashOn.toggle()
+                        }
+                    }, imagePressed: "bolt.fill", image: "bolt", width: 18, pressed: flashOn, fontWeigt: .medium)
                 }
-                .padding(.bottom, 50)
+                .padding(.trailing, 20)
+                .padding(.bottom, 20)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+            // MARK: - Barcode Search Show
+            if vm.showBarcodeSearch {
+                VStack{
+                    HStack {
+                        switch vm.showBarcodeSearchRes {
+                        case .found:
+                            Text("See results")
+                                .barcodeInfoTextModifier()
+                                .onTapGesture {
+                                    vibrate()
+                                    showBarcodeSearch = true
+                                    vm.stopScanning = true
+                                    vm.isSheetPageOpen = true
+                                }
+                        case .notFound:
+                            Text("No information available for this barcode \n Try Text Search")
+                                .barcodeInfoTextModifier()
+                                .multilineTextAlignment(.center)
+                        case .notEnoughInfo:
+                            Text("Insufficient barcode \n Try Text Search")
+                                .barcodeInfoTextModifier()
+                                .multilineTextAlignment(.center)
+                        }
+                    }
+                    .padding(.top, height * 0.1)
+                    Spacer()
+                }
             }
         }
         .padding(.bottom, 95)
@@ -100,19 +104,34 @@ struct ScannerOverlayView: View {
             }
         }
         .sheet(isPresented: $showBarcodeSearch, onDismiss: {
-            vm.product = Product()
+            vm.stopScanning = false
+            vm.isSheetPageOpen = false
             withAnimation {
-                vm.stopScanning = false
                 vm.showBarcodeSearch = false
                 showBarcodeSearch = false
             }
         }, content: {
-            RecommendationView(vm: vm)
+            BarcodeRecommendationView(vm: vm)
                 .presentationDetents([.fraction(0.75)])
-                .onAppear {
-                    vm.stopScanning = true
-                }
         })
+        .background(.white.opacity(0.00001))
+        .gesture(DragGesture(minimumDistance: 3.0, coordinateSpace: .local)
+            .onEnded { value in
+                print(value.translation)
+                switch(value.translation.width, value.translation.height) {
+                    case (...0, -30...30):  print("left swipe")
+                    case (0..., -30...30):  print("right swipe")
+                    case (-100...100, ...0):
+                        if vm.showBarcodeSearchRes == .found {
+                            showBarcodeSearch = true
+                            vm.stopScanning = true
+                            vm.isSheetPageOpen = true
+                        }
+                    case (-100...100, 0...):  print("down swipe")
+                    default:  print("no clue")
+                }
+            }
+        )
     }
     
     private func toggleTorch() {
@@ -136,8 +155,40 @@ struct ScannerOverlayView: View {
             print("Torch could not be used")
         }
     }
+    
+    @ViewBuilder
+    private func CameraActionButton(action: @escaping () -> Void, imagePressed: String = "", image: String, width: CGFloat, pressed: Bool = false, fontWeigt: Font.Weight = .semibold) -> some View {
+        Button(action: action) {
+            Image(systemName: pressed ? imagePressed : image)
+                .resizable()
+                .scaledToFit()
+                .frame(width: width)
+                .fontWeight(fontWeigt)
+                .foregroundStyle(pressed ? .yellow : .white)
+                .padding()
+        }
+        .background {
+            Circle()
+                .frame(width: 50)
+                .foregroundStyle(Color.black.opacity(0.6))
+        }
+    }
 }
 
 #Preview {
     ScannerOverlayView(vm: AppViewModel())
 }
+
+extension View {
+    @ViewBuilder
+    func barcodeInfoTextModifier() -> some View {
+        self
+            .font(.system(size: 14))
+            .foregroundStyle(.white)
+            .padding(9)
+            .background {
+                Color.black.opacity(0.35).cornerRadius(8)
+            }
+    }
+}
+

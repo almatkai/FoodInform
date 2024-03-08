@@ -27,7 +27,9 @@ struct Product: Codable {
     var allergensTags: [String]? = []
     var brands: String? = ""
     var imageURL: String? = ""
-    var ingredients: [Ingredient] = []
+    var imageNutritionThumbUrl: String? = ""
+    var imageIngredientsUrl: String? = ""
+    var ingredients: [Ingredient?]? = nil
     var ingredientsHierarchy: [String]? = []
     var productName: String? = ""
     
@@ -37,6 +39,8 @@ struct Product: Codable {
         case allergensTags = "allergens_tags"
         case brands
         case imageURL = "image_url"
+        case imageNutritionThumbUrl = "image_nutrition_thumb_url"
+        case imageIngredientsUrl = "image_ingredients_url"
         case ingredients
         case ingredientsHierarchy = "ingredients_hierarchy"
         case productName = "product_name"

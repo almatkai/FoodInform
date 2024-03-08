@@ -10,6 +10,8 @@
 		3F3765F42B8E42B400D54818 /* FunctionalityFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3765F32B8E42B400D54818 /* FunctionalityFunctions.swift */; };
 		3F3765F62B8E680000D54818 /* ScannerOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3765F52B8E680000D54818 /* ScannerOverlayView.swift */; };
 		3F3765F82B8E702300D54818 /* SymbolEffectAvailibilityExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3765F72B8E702300D54818 /* SymbolEffectAvailibilityExt.swift */; };
+		3F3DD34E2B926E9F006F4DF2 /* ImageUrlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3DD34D2B926E9F006F4DF2 /* ImageUrlView.swift */; };
+		3F56677D2B97163F00890C22 /* TextRecommendationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F56677C2B97163F00890C22 /* TextRecommendationView.swift */; };
 		3F6646252B7C99B200E5A1A2 /* DIPLOMA_SWIFTUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6646242B7C99B200E5A1A2 /* DIPLOMA_SWIFTUIApp.swift */; };
 		3F6646272B7C99B200E5A1A2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6646262B7C99B200E5A1A2 /* ContentView.swift */; };
 		3F6646292B7C99B300E5A1A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F6646282B7C99B300E5A1A2 /* Assets.xcassets */; };
@@ -18,7 +20,7 @@
 		3F6646352B7C9DDD00E5A1A2 /* DataScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6646342B7C9DDC00E5A1A2 /* DataScannerView.swift */; };
 		3F8F7C3B2B822BD2000E48C3 /* TextRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8F7C3A2B822BD2000E48C3 /* TextRecognizer.swift */; };
 		3F9D9CF32B8657B10076FB9F /* ProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9D9CF22B8657B10076FB9F /* ProductModel.swift */; };
-		3F9D9CF62B870AFD0076FB9F /* RecommendationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9D9CF52B870AFD0076FB9F /* RecommendationView.swift */; };
+		3F9D9CF62B870AFD0076FB9F /* BarcodeRecommendationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9D9CF52B870AFD0076FB9F /* BarcodeRecommendationView.swift */; };
 		3FFB14192B8BAD1F00E7CFE8 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFB14182B8BAD1F00E7CFE8 /* TabBarView.swift */; };
 /* End PBXBuildFile section */
 
@@ -26,6 +28,8 @@
 		3F3765F32B8E42B400D54818 /* FunctionalityFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionalityFunctions.swift; sourceTree = "<group>"; };
 		3F3765F52B8E680000D54818 /* ScannerOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerOverlayView.swift; sourceTree = "<group>"; };
 		3F3765F72B8E702300D54818 /* SymbolEffectAvailibilityExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolEffectAvailibilityExt.swift; sourceTree = "<group>"; };
+		3F3DD34D2B926E9F006F4DF2 /* ImageUrlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUrlView.swift; sourceTree = "<group>"; };
+		3F56677C2B97163F00890C22 /* TextRecommendationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRecommendationView.swift; sourceTree = "<group>"; };
 		3F6646212B7C99B100E5A1A2 /* DIPLOMA SWIFTUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DIPLOMA SWIFTUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F6646242B7C99B200E5A1A2 /* DIPLOMA_SWIFTUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIPLOMA_SWIFTUIApp.swift; sourceTree = "<group>"; };
 		3F6646262B7C99B200E5A1A2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -35,7 +39,7 @@
 		3F6646342B7C9DDC00E5A1A2 /* DataScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataScannerView.swift; sourceTree = "<group>"; };
 		3F8F7C3A2B822BD2000E48C3 /* TextRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRecognizer.swift; sourceTree = "<group>"; };
 		3F9D9CF22B8657B10076FB9F /* ProductModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductModel.swift; sourceTree = "<group>"; };
-		3F9D9CF52B870AFD0076FB9F /* RecommendationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationView.swift; sourceTree = "<group>"; };
+		3F9D9CF52B870AFD0076FB9F /* BarcodeRecommendationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeRecommendationView.swift; sourceTree = "<group>"; };
 		3FFB14182B8BAD1F00E7CFE8 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,7 +90,6 @@
 				3F6646282B7C99B300E5A1A2 /* Assets.xcassets */,
 				3F66462A2B7C99B300E5A1A2 /* Preview Content */,
 				3F6646322B7C9D5B00E5A1A2 /* ViewModel.swift */,
-				3F6646342B7C9DDC00E5A1A2 /* DataScannerView.swift */,
 				3F8F7C3A2B822BD2000E48C3 /* TextRecognizer.swift */,
 			);
 			path = "DIPLOMA SWIFTUI";
@@ -111,9 +114,12 @@
 		3F9D9CF42B86FCA90076FB9F /* View */ = {
 			isa = PBXGroup;
 			children = (
-				3F9D9CF52B870AFD0076FB9F /* RecommendationView.swift */,
+				3F6646342B7C9DDC00E5A1A2 /* DataScannerView.swift */,
+				3F9D9CF52B870AFD0076FB9F /* BarcodeRecommendationView.swift */,
 				3FFB14182B8BAD1F00E7CFE8 /* TabBarView.swift */,
 				3F3765F52B8E680000D54818 /* ScannerOverlayView.swift */,
+				3F3DD34D2B926E9F006F4DF2 /* ImageUrlView.swift */,
+				3F56677C2B97163F00890C22 /* TextRecommendationView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -190,8 +196,10 @@
 			files = (
 				3F3765F62B8E680000D54818 /* ScannerOverlayView.swift in Sources */,
 				3F6646272B7C99B200E5A1A2 /* ContentView.swift in Sources */,
+				3F3DD34E2B926E9F006F4DF2 /* ImageUrlView.swift in Sources */,
+				3F56677D2B97163F00890C22 /* TextRecommendationView.swift in Sources */,
 				3F3765F82B8E702300D54818 /* SymbolEffectAvailibilityExt.swift in Sources */,
-				3F9D9CF62B870AFD0076FB9F /* RecommendationView.swift in Sources */,
+				3F9D9CF62B870AFD0076FB9F /* BarcodeRecommendationView.swift in Sources */,
 				3FFB14192B8BAD1F00E7CFE8 /* TabBarView.swift in Sources */,
 				3F3765F42B8E42B400D54818 /* FunctionalityFunctions.swift in Sources */,
 				3F9D9CF32B8657B10076FB9F /* ProductModel.swift in Sources */,

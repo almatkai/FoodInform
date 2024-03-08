@@ -15,6 +15,12 @@ enum ScanType: String {
     case barcode, text
 }
 
+enum SearchResult {
+    case found
+    case notFound
+    case notEnoughInfo
+}
+
 enum DataScannerAccessStatusType {
     case notDetermined
     case cameraAccessNotGranted
@@ -33,12 +39,20 @@ final class AppViewModel: ObservableObject {
     @Published var shouldCapturePhoto = false
     @Published var capturedPhoto: UIImage? = nil
     @Published var selectedPhotoPickerItem: PhotosPickerItem? = nil
+    @Published var previousBarcode = ""
     @Published var barcode = ""
     @Published var text = ""
-    @Published var product: Product? = nil
+    @Published var barcodeProduct: BarcodeProduct? = nil
     
+    @Published var textIdendificationInProgress = false
+    @Published var showText = false
     @Published var showBarcodeSearch = false
+    @Published var showBarcodeSearchRes: SearchResult = .notFound
     @Published var stopScanning = false
+    @Published var isSheetPageOpen = false
+    @Published var barcodeScanDisabled = false
+    
+    var number = 1
     
     var recognizedDataType: DataScannerViewController.RecognizedDataType = .barcode()
     
@@ -76,21 +90,53 @@ final class AppViewModel: ObservableObject {
     func fetchProductData() {
         let baseURL = "https://world.openfoodfacts.org/api/v0/product/"
         let apiURL = URL(string: baseURL + barcode + ".json")!
-        
-        print("DEBUG: fetchProductData")
+
+        print("4")
         URLSession.shared.fetchData(for: apiURL) { (result: Result<BarcodeProduct, Error>) in
+            self.number += 1
+            print("5")
             switch result {
-            case .success(let product):
-                self.product = product.product
-                if let product = self.product {
-                    withAnimation(.bouncy) {
-                        self.showBarcodeSearch = true
+            case .success(let barcodeProduct):
+                
+                print("6")
+                self.barcodeProduct = barcodeProduct
+                // Handle success cases directly
+                if self.barcodeProduct!.statusVerbose == "product found" {
+                    if self.barcodeProduct?.product?.ingredients == nil {
+                        self.showBarcodeSearchRes = .notEnoughInfo
+                        print("7")
+                    } else {
+                        self.showBarcodeSearchRes = .found
+                        print("8")
                     }
-                } else {
-                    self.showBarcodeSearch = false
+                } else if self.barcodeProduct!.statusVerbose == "product not found" {
+                    self.showBarcodeSearchRes = .notFound
+                    print("9")
                 }
-            case .failure(let error):
-                print("Error: \(error)")
+            case .failure(_):
+                self.showBarcodeSearchRes = .notFound
+                print("10")
+            }
+            self.showBarcodeSearch = true
+            print("11")
+            self.fetchingInfoTimer()
+        }
+    }
+    
+    func fetchingInfoTimer() {
+        if self.showBarcodeSearchRes == .found {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 8) {
+                withAnimation {
+                    self.showBarcodeSearch = false
+                    print("12")
+                }
+            }
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                withAnimation {
+                    self.showBarcodeSearch = false
+                print("13")
+                }
             }
         }
     }

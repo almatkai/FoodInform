@@ -9,8 +9,8 @@ import SwiftUI
 
 extension View {
     @ViewBuilder
-    func bounceSymbolEffect(value: Bool? = true) -> some View {
-        if #available(iOS 17.0, *) {
+    func bounceSymbolEffect(value: Bool? = true, secondTap: Bool = true) -> some View {
+        if #available(iOS 17.0, *), secondTap {
             self
                 .symbolEffect(.bounce.down.byLayer, value: value)
         } else {
@@ -18,6 +18,18 @@ extension View {
         }
     }
     
+    @ViewBuilder
+    func replaceSymbolEffect(value: Bool? = true, secondTap: Bool = true) -> some View {
+        if #available(iOS 17.0, *), secondTap {
+            self
+                .contentTransition(.symbolEffect(.replace))
+        } else {
+            self
+        }
+    }
+}
+
+extension Image {
     @ViewBuilder
     func pulseSymbolEffect(value: Bool? = true) -> some View {
         if #available(iOS 17.0, *) {

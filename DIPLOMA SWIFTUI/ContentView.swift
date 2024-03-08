@@ -87,7 +87,7 @@ struct ContentView: View {
             .sheet(isPresented: $showBarcodeSearch, onDismiss: {
                 
             }, content: {
-                RecommendationView(vm: vm)
+                BarcodeRecommendationView(vm: vm)
                     .presentationDetents([.fraction(0.75)])
             })
         case .cameraAccessNotGranted:
@@ -104,31 +104,23 @@ struct ContentView: View {
     
     @ViewBuilder
     private var CameraView: some View {
-        VStack{
-            if vm.capturedPhoto == nil {
-                ZStack {
-                    DataScannerView(
-                        vm: vm
-                    )
-                    .ignoresSafeArea()
-                    
-                    
-                    ScannerOverlayView(vm: vm)
-                }
-            } else {
-                ZStack {
-                    Image(uiImage: vm.capturedPhoto!)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .ignoresSafeArea()
-                        .sheet(isPresented: $showText, content: {
-                            RecommendationView(vm: vm)
-                        })
-                    ScannerOverlayView(vm: vm)
-                }
-            }
+        ZStack {
+            DataScannerView(
+                vm: vm
+            )
+            .ignoresSafeArea()
+            
+            ScannerOverlayView(vm: vm)
         }
-        
+        .sheet(isPresented: $vm.showText, onDismiss: {
+            vm.capturedPhoto = nil
+            if !vm.barcodeScanDisabled {
+                vm.stopScanning = false
+            }
+        }, content: {
+            TextRecommendationView(vm: vm)
+                .presentationDetents([.fraction(0.75)])
+        })
     }
 }
 
