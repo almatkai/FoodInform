@@ -31,7 +31,6 @@ struct DataScannerView: UIViewControllerRepresentable {
         uiViewController.delegate = context.coordinator
         try? uiViewController.startScanning()
         if vm.shouldCapturePhoto, !capturingAndRecognizing {
-            print("DEBUG: capturePhoto(dataScannerVC: uiViewController)")
             capturePhoto(dataScannerVC: uiViewController)
         }
         

@@ -55,6 +55,8 @@ struct ContentView: View {
                            height: height, bottomInset: bottomInset,
                            index: $index, activeTab: $activeTab)
                 .ignoresSafeArea()
+                
+                
             }
             .onAppear {
                 self.width = geometry.size.width

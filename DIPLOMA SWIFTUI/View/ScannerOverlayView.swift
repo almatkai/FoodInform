@@ -19,11 +19,16 @@ struct ScannerOverlayView: View {
     let height = UIScreen.main.bounds.height
     
     var body: some View {
-        
         ZStack {
             HStack {
                 // MARK: - Functional Camera Buttons
                 VStack{
+                    CameraActionButton(action: {
+                        vibrate()
+                        vm.showText = true
+                    },
+                        image: "tray",
+                        width: 22)
                     // MARK: - Disable Barcode Search Button
                     ZStack {
                         CameraActionButton(action: {
@@ -114,24 +119,23 @@ struct ScannerOverlayView: View {
             BarcodeRecommendationView(vm: vm)
                 .presentationDetents([.fraction(0.75)])
         })
-        .background(.white.opacity(0.00001))
-        .gesture(DragGesture(minimumDistance: 3.0, coordinateSpace: .local)
-            .onEnded { value in
-                print(value.translation)
-                switch(value.translation.width, value.translation.height) {
-                    case (...0, -30...30):  print("left swipe")
-                    case (0..., -30...30):  print("right swipe")
-                    case (-100...100, ...0):
-                        if vm.showBarcodeSearchRes == .found {
-                            showBarcodeSearch = true
-                            vm.stopScanning = true
-                            vm.isSheetPageOpen = true
-                        }
-                    case (-100...100, 0...):  print("down swipe")
-                    default:  print("no clue")
-                }
-            }
-        )
+//        .gesture(DragGesture(minimumDistance: 3.0, coordinateSpace: .local)
+//            .onEnded { value in
+//                print(value.translation)
+//                switch(value.translation.width, value.translation.height) {
+//                    case (...0, -30...30):  print("left swipe")
+//                    case (0..., -30...30):  print("right swipe")
+//                    case (-100...100, ...0):
+//                        if vm.showBarcodeSearchRes == .found {
+//                            showBarcodeSearch = true
+//                            vm.stopScanning = true
+//                            vm.isSheetPageOpen = true
+//                        }
+//                    case (-100...100, 0...):  print("down swipe")
+//                    default:  print("no clue")
+//                }
+//            }
+//        )
     }
     
     private func toggleTorch() {

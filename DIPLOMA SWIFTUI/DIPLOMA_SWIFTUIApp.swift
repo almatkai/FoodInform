@@ -21,4 +21,5 @@ struct DIPLOMA_SWIFTUIApp: App {
                 }
         }
     }
+    
 }

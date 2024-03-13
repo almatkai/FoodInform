@@ -18,6 +18,7 @@
 		3F66462C2B7C99B300E5A1A2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F66462B2B7C99B300E5A1A2 /* Preview Assets.xcassets */; };
 		3F6646332B7C9D5B00E5A1A2 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6646322B7C9D5B00E5A1A2 /* ViewModel.swift */; };
 		3F6646352B7C9DDD00E5A1A2 /* DataScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6646342B7C9DDC00E5A1A2 /* DataScannerView.swift */; };
+		3F78C5492B9C60460044E812 /* dataset.json in Resources */ = {isa = PBXBuildFile; fileRef = 3F78C5482B9C60460044E812 /* dataset.json */; };
 		3F8F7C3B2B822BD2000E48C3 /* TextRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8F7C3A2B822BD2000E48C3 /* TextRecognizer.swift */; };
 		3F9D9CF32B8657B10076FB9F /* ProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9D9CF22B8657B10076FB9F /* ProductModel.swift */; };
 		3F9D9CF62B870AFD0076FB9F /* BarcodeRecommendationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9D9CF52B870AFD0076FB9F /* BarcodeRecommendationView.swift */; };
@@ -37,6 +38,7 @@
 		3F66462B2B7C99B300E5A1A2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3F6646322B7C9D5B00E5A1A2 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		3F6646342B7C9DDC00E5A1A2 /* DataScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataScannerView.swift; sourceTree = "<group>"; };
+		3F78C5482B9C60460044E812 /* dataset.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = dataset.json; sourceTree = "<group>"; };
 		3F8F7C3A2B822BD2000E48C3 /* TextRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRecognizer.swift; sourceTree = "<group>"; };
 		3F9D9CF22B8657B10076FB9F /* ProductModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductModel.swift; sourceTree = "<group>"; };
 		3F9D9CF52B870AFD0076FB9F /* BarcodeRecommendationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeRecommendationView.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 				3F66462A2B7C99B300E5A1A2 /* Preview Content */,
 				3F6646322B7C9D5B00E5A1A2 /* ViewModel.swift */,
 				3F8F7C3A2B822BD2000E48C3 /* TextRecognizer.swift */,
+				3F78C5482B9C60460044E812 /* dataset.json */,
 			);
 			path = "DIPLOMA SWIFTUI";
 			sourceTree = "<group>";
@@ -183,6 +186,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F66462C2B7C99B300E5A1A2 /* Preview Assets.xcassets in Resources */,
+				3F78C5492B9C60460044E812 /* dataset.json in Resources */,
 				3F6646292B7C99B300E5A1A2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

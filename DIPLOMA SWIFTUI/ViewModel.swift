@@ -51,9 +51,7 @@ final class AppViewModel: ObservableObject {
     @Published var stopScanning = false
     @Published var isSheetPageOpen = false
     @Published var barcodeScanDisabled = false
-    
-    var number = 1
-    
+        
     var recognizedDataType: DataScannerViewController.RecognizedDataType = .barcode()
     
     private var isScannerAvailable: Bool {
@@ -93,7 +91,6 @@ final class AppViewModel: ObservableObject {
 
         print("4")
         URLSession.shared.fetchData(for: apiURL) { (result: Result<BarcodeProduct, Error>) in
-            self.number += 1
             print("5")
             switch result {
             case .success(let barcodeProduct):
